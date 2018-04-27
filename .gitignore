@@ -1,0 +1,9 @@
+# [Vagrant]
+.vagrant
+*.retry
+.env
+ansible/env_vars.yml
+
+# [Mac]
+.DS_Store
+
