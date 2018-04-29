@@ -6,6 +6,7 @@
     - "{{ postgresql_for_gitlab_path }}"
     - "{{ redis_for_gitlab_path }}"
     - "{{ gitlab_path }}"
+    - "{{ jenkins_data_path }}"
 
 - name: pull docker images
   shell: docker pull {{ item }}
@@ -13,6 +14,7 @@
     - "sameersbn/postgresql:{{ postgresql_for_gitlab_version }}"
     - "sameersbn/redis:{{ redis_for_gitlab_version }}"
     - "sameersbn/gitlab:{{ gitlab_version }}"
+    - "jenkins:{{ jenkins_version }}"
 
 - name: set docker-compose.yml
   template:
