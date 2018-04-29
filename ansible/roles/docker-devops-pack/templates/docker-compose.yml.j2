@@ -66,6 +66,8 @@ services:
     - GITLAB_PORT={{ gitlab_http_port }}
     - GITLAB_SSH_PORT={{ gitlab_ssh_port }}
     - GITLAB_SECRETS_DB_KEY_BASE=long-and-random-alpha-numeric-string
+    - GITLAB_SECRETS_SECRET_KEY_BASE=long-and-random-alpha-numeric-string
+    - GITLAB_SECRETS_OTP_KEY_BASE=long-and-random-alpha-numeric-string
 
     - SMTP_USER={{ gitlab_smtp_user }}
     - SMTP_PASS={{ gitlab_smtp_pass }}
