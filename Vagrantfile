@@ -1,9 +1,11 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
-Dotenv.load!
+Dotenv.load! # vagrant plugin install dotenv
 
 Vagrant.configure("2") do |config|
   config.vm.box = "relativkreativ/centos-7-minimal"
+  # config.vm.box = "geerlingguy/centos7"
+  # config.ssh.keep_alive = true
 
   config.vm.network :private_network, ip:"192.168.33.10"
   config.vm.hostname = "localhost"
@@ -17,6 +19,7 @@ Vagrant.configure("2") do |config|
   config.vm.synced_folder ".", "/vagrant", :create => true, :owner => 'vagrant', :group => 'vagrant', :mount_options => ['dmode=777', 'fmode=600']
 
   config.vm.provider "virtualbox" do |vm|
+    # vm.gui = true
     vm.customize ["modifyvm", :id, "--memory", "4096"]
   end
 
