@@ -25,6 +25,12 @@
     jenkins_data_path: "/var/lib/docker/data/jenkins"
     jenkins_http_port: 8004
     jenkins_jnlp_port: 8005
+    openldap_version: "1.2.0"
+    openldap_data_path: "/var/lib/docker/data/openldap"
+    openldap_port: 8006
+    # openldap_admin_pass: ""
+    phpldapadmin_version: "0.7.1"
+    phpldapadmin_http_port: 8007
   vars_files:
     - env_vars.yml
   roles:

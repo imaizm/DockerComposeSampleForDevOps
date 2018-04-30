@@ -7,6 +7,7 @@
     - "{{ redis_for_gitlab_path }}"
     - "{{ gitlab_path }}"
     - "{{ jenkins_data_path }}"
+    - "{{ openldap_data_path }}"
 
 - name: pull docker images
   shell: docker pull {{ item }}
@@ -15,6 +16,8 @@
     - "sameersbn/redis:{{ redis_for_gitlab_version }}"
     - "sameersbn/gitlab:{{ gitlab_version }}"
     - "jenkins:{{ jenkins_version }}"
+    - "osixia/openldap:{{ openldap_version }}"
+    - "osixia/phpldapadmin:{{ phpldapadmin_version }}"
 
 - name: set docker-compose.yml
   template:

@@ -15,6 +15,8 @@ Vagrant.configure("2") do |config|
   config.vm.network :forwarded_port, guest: 8003, host: 8003 # postgres
   config.vm.network :forwarded_port, guest: 8004, host: 8004 # jenkins http
   config.vm.network :forwarded_port, guest: 8005, host: 8005 # jenkins jnlp
+  config.vm.network :forwarded_port, guest: 8006, host: 8006 # ldap
+  config.vm.network :forwarded_port, guest: 8007, host: 8007 # phpldapadmin http
 
   config.vm.synced_folder ".", "/vagrant", :create => true, :owner => 'vagrant', :group => 'vagrant', :mount_options => ['dmode=777', 'fmode=600']
 
@@ -24,12 +26,13 @@ Vagrant.configure("2") do |config|
   end
 
   config.vm.provision :shell, :inline => <<-EOL
-    if [ ! -e /vagrant/ansible/env_vars.yml ]; then
+    # if [ ! -e /vagrant/ansible/env_vars.yml ]; then
       echo '---' > /vagrant/ansible/env_vars.yml
       echo 'postgresql_for_gitlab_pass: "#{ENV['postgresql_for_gitlab_pass']}"' >> /vagrant/ansible/env_vars.yml
       echo 'gitlab_smtp_user: "#{ENV['gitlab_smtp_user']}"' >> /vagrant/ansible/env_vars.yml
       echo 'gitlab_smtp_pass: "#{ENV['gitlab_smtp_pass']}"' >> /vagrant/ansible/env_vars.yml
-    fi
+      echo 'openldap_admin_pass: "#{ENV['openldap_admin_pass']}"' >> /vagrant/ansible/env_vars.yml
+    # fi
   EOL
 
   config.vm.provision "ansible_local" do |ansible|
