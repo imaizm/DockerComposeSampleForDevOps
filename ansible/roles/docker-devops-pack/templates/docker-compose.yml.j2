@@ -38,6 +38,8 @@ services:
         condition: service_started
       gitlab-postgresql:
         condition: service_healthy
+      openldap:
+        condition: service_started
     ports:
     - "{{ gitlab_http_port }}:80"
     - "{{ gitlab_ssh_port }}:22"
@@ -72,6 +74,18 @@ services:
     - SMTP_USER={{ gitlab_smtp_user }}
     - SMTP_PASS={{ gitlab_smtp_pass }}
 
+    - LDAP_ENABLED=true
+    - LDAP_LABEL={{ openldap_org_name }}
+    - LDAP_HOST=openldap
+    - LDAP_PORT=389
+    - LDAP_BIND_DN=cn=admin,dc={{ openldap_1st_dc }},dc={{ openldap_2nd_dc }}
+    - LDAP_PASS={{ openldap_admin_pass }}
+    - LDAP_METHOD=plain
+    - LDAP_ACTIVE_DIRECTORY=false
+    - LDAP_ALLOW_USERNAME_OR_EMAIL_LOGIN=true
+    - LDAP_UID=cn
+    - LDAP_BASE=dc={{ openldap_1st_dc }},dc={{ openldap_2nd_dc }}
+
   jenkins:
     restart: always
     image: jenkins:{{ jenkins_version }}
@@ -91,8 +105,8 @@ services:
     ports:
     - "{{ openldap_port }}:389"
     environment:
-    - LDAP_ORGANISATION=example
-    - LDAP_DOMAIN=example.com
+    - LDAP_ORGANISATION={{ openldap_org_name }}
+    - LDAP_DOMAIN={{ openldap_1st_dc }}.{{ openldap_2nd_dc }}
     - LDAP_ADMIN_PASSWORD={{ openldap_admin_pass }}
 
   phpldapadmin:
