@@ -84,7 +84,7 @@ services:
     - LDAP_ACTIVE_DIRECTORY=false
     - LDAP_ALLOW_USERNAME_OR_EMAIL_LOGIN=true
     - LDAP_UID=cn
-    - LDAP_BASE=dc={{ openldap_1st_dc }},dc={{ openldap_2nd_dc }}
+    - LDAP_BASE=ou={{ openldap_base_user_ou }},dc={{ openldap_1st_dc }},dc={{ openldap_2nd_dc }}
 
   jenkins:
     restart: always

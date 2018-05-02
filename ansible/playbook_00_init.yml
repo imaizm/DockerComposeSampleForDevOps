@@ -32,6 +32,7 @@
     openldap_org_name: "LDAP for example.local"
     openldap_1st_dc: "example"
     openldap_2nd_dc: "local"
+    openldap_base_user_ou: "Users"
     phpldapadmin_version: "0.7.1"
     phpldapadmin_http_port: 8007
   vars_files:
