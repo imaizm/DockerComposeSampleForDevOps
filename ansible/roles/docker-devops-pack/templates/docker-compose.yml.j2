@@ -95,6 +95,9 @@ services:
     ports:
     - "{{ jenkins_http_port }}:8080"
     - "{{ jenkins_jnlp_port }}:50000"
+    links:
+    - "openldap:ldap.{{ openldap_1st_dc }}.{{ openldap_2nd_dc }}"
+    - "gitlab:gitlab"
 
   openldap:
     restart: always
@@ -130,9 +133,9 @@ services:
     ports:
     - "{{ subversion_http_port }}:80"
     links:
-    - "openldap:ldap"
+    - "openldap:ldap.{{ openldap_1st_dc }}.{{ openldap_2nd_dc }}"
     environment:
-    - LDAP_HOST=ldap
+    - LDAP_HOST=ldap.{{ openldap_1st_dc }}.{{ openldap_2nd_dc }}
     - LDAP_DOMAIN={{ openldap_1st_dc }}.{{ openldap_2nd_dc }}
     - LDAP_BIND_DN=cn=admin
     - LDAP_BIND_PWD={{ openldap_admin_pass }}
