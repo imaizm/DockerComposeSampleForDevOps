@@ -7,7 +7,8 @@
     - "{{ redis_for_gitlab_path }}"
     - "{{ gitlab_path }}"
     - "{{ jenkins_data_path }}"
-    - "{{ openldap_data_path }}"
+    - "{{ openldap_data_path }}/conf"
+    - "{{ openldap_data_path }}/data"
     - "{{ subversion_data_path }}"
 
 - name: pull docker images
