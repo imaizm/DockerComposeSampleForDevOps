@@ -45,8 +45,6 @@ services:
     - "{{ gitlab_ssh_port }}:22"
     volumes:
     - {{ gitlab_path }}:/home/git/data:z
-    links:
-    - "jenkins:jenkins"
     environment:
     - DEBUG=false
 
@@ -97,9 +95,6 @@ services:
     ports:
     - "{{ jenkins_http_port }}:8080"
     - "{{ jenkins_jnlp_port }}:50000"
-    links:
-    - "openldap:ldap.{{ openldap_1st_dc }}.{{ openldap_2nd_dc }}"
-    - "gitlab:gitlab"
 
   openldap:
     restart: always
