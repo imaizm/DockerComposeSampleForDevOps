@@ -138,8 +138,8 @@ services:
     - LDAP_DOMAIN={{ openldap_1st_dc }}.{{ openldap_2nd_dc }}
     - LDAP_BIND_DN=cn=admin
     - LDAP_BIND_PWD={{ openldap_admin_pass }}
-    - LDAP_USER_BASE=ou=people
-    - LDAP_GROUP_BASE=ou=group
+    - LDAP_USER_BASE=ou=users
+    - LDAP_GROUP_BASE=ou=groups
     - LDAP_READ_DN=user
     - LDAP_WRITE_DN=user
     - LDAP_CONFIG_VERBOSE=3
