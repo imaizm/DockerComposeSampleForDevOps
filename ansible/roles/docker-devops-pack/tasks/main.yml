@@ -9,6 +9,7 @@
     - "{{ jenkins_data_path }}"
     - "{{ openldap_data_path }}/conf"
     - "{{ openldap_data_path }}/data"
+    - "{{ subversion_data_path }}"
 
 - name: pull docker images
   shell: docker pull {{ item }}
@@ -19,6 +20,7 @@
     - "jenkins:{{ jenkins_version }}"
     - "osixia/openldap:{{ openldap_version }}"
     - "osixia/phpldapadmin:{{ phpldapadmin_version }}"
+    - "mwaeckerlin/svn:{{ subversion_version }}"
 
 - name: set docker-compose.yml
   template:

@@ -121,3 +121,24 @@ services:
     environment:
     - PHPLDAPADMIN_LDAP_HOSTS=ldap
     - PHPLDAPADMIN_HTTPS=false
+
+  subversion:
+    restart: always
+    image: mwaeckerlin/svn:{{ subversion_version }}
+    container_name: subversion
+    volumes:
+    - {{ subversion_data_path }}:/svn:z
+    ports:
+    - "{{ subversion_http_port }}:80"
+    links:
+    - "openldap:ldap.{{ openldap_1st_dc }}.{{ openldap_2nd_dc }}"
+    environment:
+    - LDAP_HOST=ldap.{{ openldap_1st_dc }}.{{ openldap_2nd_dc }}
+    - LDAP_DOMAIN={{ openldap_1st_dc }}.{{ openldap_2nd_dc }}
+    - LDAP_BIND_DN=cn=admin
+    - LDAP_BIND_PWD={{ openldap_admin_pass }}
+    - LDAP_USER_BASE=ou=people
+    - LDAP_GROUP_BASE=ou=group
+    - LDAP_READ_DN=user
+    - LDAP_WRITE_DN=user
+    - LDAP_CONFIG_VERBOSE=3
