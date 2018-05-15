@@ -45,6 +45,8 @@ services:
     - "{{ gitlab_ssh_port }}:22"
     volumes:
     - {{ gitlab_path }}:/home/git/data:z
+    links:
+    - "jenkins:jenkins"
     environment:
     - DEBUG=false
 
