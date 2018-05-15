@@ -114,12 +114,13 @@ services:
     restart: always
     image: osixia/phpldapadmin:{{ phpldapadmin_version }}
     container_name: phpldapadmin
+    depends_on:
+      openldap:
+        condition: service_started
     ports:
     - "{{ phpldapadmin_http_port }}:80"
-    links:
-    - "openldap:ldap"
     environment:
-    - PHPLDAPADMIN_LDAP_HOSTS=ldap
+    - PHPLDAPADMIN_LDAP_HOSTS=openldap
     - PHPLDAPADMIN_HTTPS=false
 
   subversion:
