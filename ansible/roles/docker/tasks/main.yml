@@ -5,8 +5,18 @@
 - name: add users to docker group
   user: name={{config_user}} groups=docker append=yes
 
+- name: install required packages by docker
+  yum: name={{ item }} state=latest
+  with_items:
+    - yum-utils
+    - device-mapper-persistent-data
+    - lvm2
+
+- name: add docker repository
+  shell: yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+
 - name: install docker
-  yum: name=docker state=latest
+  yum: name=docker-ce state=latest
 
 - name: enable docker
   service: name=docker enabled=yes state=started
