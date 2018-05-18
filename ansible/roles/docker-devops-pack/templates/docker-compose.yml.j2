@@ -88,7 +88,7 @@ services:
 
   jenkins:
     restart: always
-    image: jenkins:{{ jenkins_version }}
+    image: jenkins/jenkins:{{ jenkins_version }}
     container_name: jenkins
     volumes:
     - {{ jenkins_data_path }}:/var/jenkins_home:z

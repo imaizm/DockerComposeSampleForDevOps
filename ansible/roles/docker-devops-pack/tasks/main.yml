@@ -17,7 +17,7 @@
     - "sameersbn/postgresql:{{ postgresql_for_gitlab_version }}"
     - "sameersbn/redis:{{ redis_for_gitlab_version }}"
     - "sameersbn/gitlab:{{ gitlab_version }}"
-    - "jenkins:{{ jenkins_version }}"
+    - "jenkins/jenkins:{{ jenkins_version }}"
     - "osixia/openldap:{{ openldap_version }}"
     - "osixia/phpldapadmin:{{ phpldapadmin_version }}"
     - "mwaeckerlin/svn:{{ subversion_version }}"
