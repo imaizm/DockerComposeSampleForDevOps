@@ -1,6 +1,11 @@
 ---
 - name: mkdir required dirs
-  file: path={{ item }} state=directory recurse=yes mode=0755 owner={{config_user}} group={{config_user}}
+  #file: path={{ item }} state=directory recurse=yes mode=0755 owner={{config_user}} group={{config_user}}
+  shell: |
+    if [ ! -e {{ item }} ]; then
+      mkdir -p -m 755 {{ item }}
+      chown {{config_user}}:{{config_user}} {{ item }}
+    fi
   with_items:
     - "{{ devops_pack_path }}"
     - "{{ postgresql_for_gitlab_path }}"
@@ -10,6 +15,9 @@
     - "{{ openldap_data_path }}/conf"
     - "{{ openldap_data_path }}/data"
     - "{{ subversion_data_path }}"
+    - "{{ artifactory_data_path }}/data"
+    - "{{ artifactory_data_path }}/logs"
+    - "{{ artifactory_data_path }}/backup"
 
 - name: pull docker images
   shell: docker pull {{ item }}
@@ -21,6 +29,7 @@
     - "osixia/openldap:{{ openldap_version }}"
     - "osixia/phpldapadmin:{{ phpldapadmin_version }}"
     - "mwaeckerlin/svn:{{ subversion_version }}"
+    - "mattgruter/artifactory:{{ artifactory_version }}"
 
 - name: set docker-compose.yml
   template:

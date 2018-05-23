@@ -143,3 +143,14 @@ services:
     - LDAP_READ_DN=user
     - LDAP_WRITE_DN=user
     - LDAP_CONFIG_VERBOSE=3
+
+  artifactory:
+    restart: always
+    image: mattgruter/artifactory:{{ artifactory_version }}
+    container_name: artifactory
+    volumes:
+    - {{ artifactory_data_path }}/data:/artifactory/data:z
+    - {{ artifactory_data_path }}/logs:/artifactory/logs:z
+    - {{ artifactory_data_path }}/backup:/artifactory/backup:z
+    ports:
+    - "{{ artifactory_port }}:8080"

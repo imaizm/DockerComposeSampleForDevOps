@@ -38,6 +38,9 @@
     subversion_version: "latest"
     subversion_data_path: "/var/lib/docker/data/subversion"
     subversion_http_port: 8008
+    artifactory_version: "3.9.2"
+    artifactory_data_path: "/var/lib/docker/data/artifactory"
+    artifactory_port: 8009
   vars_files:
     - env_vars.yml
   roles:
