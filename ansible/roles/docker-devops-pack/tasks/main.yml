@@ -15,21 +15,26 @@
     - "{{ openldap_data_path }}/conf"
     - "{{ openldap_data_path }}/data"
     - "{{ subversion_data_path }}"
-    - "{{ artifactory_data_path }}/data"
-    - "{{ artifactory_data_path }}/logs"
-    - "{{ artifactory_data_path }}/backup"
 
-- name: pull docker images
-  shell: docker pull {{ item }}
+- name: docker volumne create
+  docker_volume:
+    name: "{{ item }}"
   with_items:
-    - "sameersbn/postgresql:{{ postgresql_for_gitlab_version }}"
-    - "sameersbn/redis:{{ redis_for_gitlab_version }}"
-    - "sameersbn/gitlab:{{ gitlab_version }}"
-    - "jenkins/jenkins:{{ jenkins_version }}"
-    - "osixia/openldap:{{ openldap_version }}"
-    - "osixia/phpldapadmin:{{ phpldapadmin_version }}"
-    - "mwaeckerlin/svn:{{ subversion_version }}"
-    - "mattgruter/artifactory:{{ artifactory_version }}"
+    - "{{ nexus_volume_name }}"
+
+- name: docker pull
+  docker_image:
+    name: "{{ item.name }}"
+    tag: "{{ item.tag }}"
+  with_items:
+    - { name: "sameersbn/postgresql", tag: "{{ postgresql_for_gitlab_version }}" }
+    - { name: "sameersbn/redis", tag: "{{ redis_for_gitlab_version }}" }
+    - { name: "sameersbn/gitlab", tag: "{{ gitlab_version }}" }
+    - { name: "jenkins/jenkins", tag: "{{ jenkins_version }}" }
+    - { name: "osixia/openldap", tag: "{{ openldap_version }}" }
+    - { name: "osixia/phpldapadmin", tag: "{{ phpldapadmin_version }}" }
+    - { name: "mwaeckerlin/svn", tag: "{{ subversion_version }}" }
+    - { name: "sonatype/nexus3", tag: "{{ nexus_version }}" }
 
 - name: set docker-compose.yml
   template:

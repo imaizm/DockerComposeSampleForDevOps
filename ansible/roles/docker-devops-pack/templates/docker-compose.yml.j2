@@ -144,13 +144,15 @@ services:
     - LDAP_WRITE_DN=user
     - LDAP_CONFIG_VERBOSE=3
 
-  artifactory:
+  nexus:
     restart: always
-    image: mattgruter/artifactory:{{ artifactory_version }}
-    container_name: artifactory
+    image: sonatype/nexus3:{{ nexus_version }}
+    container_name: nexus
     volumes:
-    - {{ artifactory_data_path }}/data:/artifactory/data:z
-    - {{ artifactory_data_path }}/logs:/artifactory/logs:z
-    - {{ artifactory_data_path }}/backup:/artifactory/backup:z
+    - {{ nexus_volume_name }}:/nexus-data
     ports:
-    - "{{ artifactory_port }}:8080"
+    - "{{ nexus_http_port }}:8081"
+    - "{{ nexus_docker_port }}:{{ nexus_docker_port }}"
+
+volumes:
+  {{ nexus_volume_name }}:
