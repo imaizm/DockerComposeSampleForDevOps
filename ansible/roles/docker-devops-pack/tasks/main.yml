@@ -14,7 +14,6 @@
     - "{{ jenkins_data_path }}"
     - "{{ openldap_data_path }}/conf"
     - "{{ openldap_data_path }}/data"
-    - "{{ subversion_data_path }}"
 
 - name: docker volumne create
   docker_volume:
@@ -33,7 +32,6 @@
     - { name: "jenkins/jenkins", tag: "{{ jenkins_version }}" }
     - { name: "osixia/openldap", tag: "{{ openldap_version }}" }
     - { name: "osixia/phpldapadmin", tag: "{{ phpldapadmin_version }}" }
-    - { name: "mwaeckerlin/svn", tag: "{{ subversion_version }}" }
     - { name: "sonatype/nexus3", tag: "{{ nexus_version }}" }
 
 - name: set docker-compose.yml
