@@ -17,8 +17,8 @@ Vagrant.configure("2") do |config|
   config.vm.network :forwarded_port, guest: 8005, host: 8005 # jenkins jnlp
   config.vm.network :forwarded_port, guest: 8006, host: 8006 # ldap
   config.vm.network :forwarded_port, guest: 8007, host: 8007 # phpldapadmin http
-  config.vm.network :forwarded_port, guest: 8008, host: 8008 # subversion http
-  config.vm.network :forwarded_port, guest: 8009, host: 8009 # artifactory http
+  config.vm.network :forwarded_port, guest: 8008, host: 8008 # nexus http
+  config.vm.network :forwarded_port, guest: 8009, host: 8009 # nexus docker repository
   
   config.vm.synced_folder ".", "/vagrant", :create => true, :owner => 'vagrant', :group => 'vagrant', :mount_options => ['dmode=777', 'fmode=600']
 
