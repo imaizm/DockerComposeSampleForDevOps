@@ -83,7 +83,7 @@ services:
     - LDAP_METHOD=plain
     - LDAP_ACTIVE_DIRECTORY=false
     - LDAP_ALLOW_USERNAME_OR_EMAIL_LOGIN=true
-    - LDAP_UID=cn
+    - LDAP_UID=uid
     - LDAP_BASE=ou={{ openldap_base_user_ou }},dc={{ openldap_1st_dc }},dc={{ openldap_2nd_dc }}
 
   jenkins:
@@ -143,3 +143,16 @@ services:
     - LDAP_READ_DN=user
     - LDAP_WRITE_DN=user
     - LDAP_CONFIG_VERBOSE=3
+
+  nexus:
+    restart: always
+    image: sonatype/nexus3:{{ nexus_version }}
+    container_name: nexus
+    volumes:
+    - {{ nexus_volume_name }}:/nexus-data
+    ports:
+    - "{{ nexus_http_port }}:8081"
+    - "{{ nexus_docker_port }}:{{ nexus_docker_port }}"
+
+volumes:
+  {{ nexus_volume_name }}:

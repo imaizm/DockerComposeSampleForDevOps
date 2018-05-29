@@ -29,4 +29,19 @@
   shell: |
     curl -L https://github.com/docker/compose/releases/download/{{ docker_compose_version }}/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose
     chmod +x /usr/local/bin/docker-compose
-  when: is_exists.stat.md5 is not defined
+  when: not is_exists.stat.exists
+
+- name: install pip for docker-py
+  yum: name={{ item }} state=latest
+  with_items:
+    - epel-release
+    - python-pip
+
+- name: pip upgrade
+  shell: pip install pip --upgrade
+  register: result
+  changed_when: '"Requirement already up-to-date" not in result.stdout'
+
+- name: install docker-py
+  pip:
+    name: docker-py
