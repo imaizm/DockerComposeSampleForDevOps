@@ -14,10 +14,11 @@ services:
     restart: always
     image: sameersbn/postgresql:{{ postgresql_for_gitlab_version }}
     container_name: gitlab-postgresql
-    volumes:
-    - {{ postgresql_for_gitlab_path }}:/var/lib/postgresql:z
     ports:
     - "{{ postgresql_for_gitlab_port }}:5432"
+    volumes:
+    - {{ postgresql_for_gitlab_path }}:/var/lib/postgresql:z
+    - avoid-nameless-for-gitlab-postgresql-run:/run/postgresql
     environment:
     - DB_NAME={{ postgresql_for_gitlab_db_name }}
     - DB_USER={{ postgresql_for_gitlab_user }}
@@ -44,7 +45,8 @@ services:
     - "{{ gitlab_http_port }}:80"
     - "{{ gitlab_ssh_port }}:22"
     volumes:
-    - {{ gitlab_path }}:/home/git/data:z
+    - {{ gitlab_path }}/data:/home/git/data:z
+    - {{ gitlab_path }}/log:/var/log/gitlab:z
     environment:
     - DEBUG=false
 
@@ -90,21 +92,21 @@ services:
     restart: always
     image: jenkins/jenkins:{{ jenkins_version }}
     container_name: jenkins
-    volumes:
-    - {{ jenkins_data_path }}:/var/jenkins_home:z
     ports:
     - "{{ jenkins_http_port }}:8080"
     - "{{ jenkins_jnlp_port }}:50000"
+    volumes:
+    - {{ jenkins_data_path }}:/var/jenkins_home:z
 
   openldap:
     restart: always
     image: osixia/openldap:{{ openldap_version }}
     container_name: openldap
+    ports:
+    - "{{ openldap_port }}:389"
     volumes:
     - {{ openldap_data_path }}/conf:/etc/ldap/slapd.d:z
     - {{ openldap_data_path }}/data:/var/lib/ldap:z
-    ports:
-    - "{{ openldap_port }}:389"
     environment:
     - LDAP_ORGANISATION={{ openldap_org_name }}
     - LDAP_DOMAIN={{ openldap_1st_dc }}.{{ openldap_2nd_dc }}
@@ -119,6 +121,8 @@ services:
         condition: service_started
     ports:
     - "{{ phpldapadmin_http_port }}:80"
+    volumes:
+    - avoid-nameless-for-phpldapadmin:/var/www/phpldapadmin
     environment:
     - PHPLDAPADMIN_LDAP_HOSTS=openldap
     - PHPLDAPADMIN_HTTPS=false
@@ -127,11 +131,16 @@ services:
     restart: always
     image: sonatype/nexus3:{{ nexus_version }}
     container_name: nexus
-    volumes:
-    - {{ nexus_volume_name }}:/nexus-data
     ports:
     - "{{ nexus_http_port }}:8081"
     - "{{ nexus_docker_port }}:{{ nexus_docker_port }}"
+    volumes:
+    - {{ nexus_volume_name }}:/nexus-data
 
 volumes:
+  avoid-nameless-for-gitlab-postgresql-run:
+    external: true
+  avoid-nameless-for-phpldapadmin:
+    external: true
   {{ nexus_volume_name }}:
+    external: true

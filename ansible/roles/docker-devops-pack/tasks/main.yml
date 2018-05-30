@@ -10,7 +10,8 @@
     - "{{ devops_pack_path }}"
     - "{{ postgresql_for_gitlab_path }}"
     - "{{ redis_for_gitlab_path }}"
-    - "{{ gitlab_path }}"
+    - "{{ gitlab_path }}/data"
+    - "{{ gitlab_path }}/log"
     - "{{ jenkins_data_path }}"
     - "{{ openldap_data_path }}/conf"
     - "{{ openldap_data_path }}/data"
@@ -19,6 +20,8 @@
   docker_volume:
     name: "{{ item }}"
   with_items:
+    - avoid-nameless-for-gitlab-postgresql-run
+    - avoid-nameless-for-phpldapadmin
     - "{{ nexus_volume_name }}"
 
 - name: docker pull
