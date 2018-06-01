@@ -1,0 +1,13 @@
+---
+- name: set wandisco-git.repo
+  template:
+    src: wandisco-git.repo.j2
+    dest: "/etc/yum.repos.d/wandisco-git.repo"
+
+- name: import rpm key
+  rpm_key:
+    state: present
+    key: http://opensource.wandisco.com/RPM-GPG-KEY-WANdisco
+
+- name: install git
+  yum: name=git state=latest enablerepo=wandisco-git

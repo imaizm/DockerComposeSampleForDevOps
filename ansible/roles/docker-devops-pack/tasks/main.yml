@@ -1,10 +1,10 @@
 ---
 - name: mkdir required dirs
-  #file: path={{ item }} state=directory recurse=yes mode=0755 owner={{config_user}} group={{config_user}}
+  #file: path={{ item }} state=directory recurse=yes mode=0755 owner={{config_user}} group={{config_group}}
   shell: |
     if [ ! -e {{ item }} ]; then
       mkdir -p -m 755 {{ item }}
-      chown {{config_user}}:{{config_user}} {{ item }}
+      chown {{ config_user }}:{{ config_group }} {{ item }}
     fi
   with_items:
     - "{{ devops_pack_path }}"
@@ -15,14 +15,6 @@
     - "{{ jenkins_data_path }}"
     - "{{ openldap_data_path }}/conf"
     - "{{ openldap_data_path }}/data"
-
-- name: docker volumne create
-  docker_volume:
-    name: "{{ item }}"
-  with_items:
-    - avoid-nameless-for-gitlab-postgresql-run
-    - avoid-nameless-for-phpldapadmin
-    - "{{ nexus_volume_name }}"
 
 - name: docker pull
   docker_image:
@@ -41,8 +33,8 @@
   template:
     src: docker-compose.yml.j2
     dest: "{{ devops_pack_path }}/docker-compose.yml"
-    owner: "{{config_user}}"
-    group: "{{config_user}}"
+    owner: "{{ config_user }}"
+    group: "{{ config_group }}"
 
 - name: configure docker container services
   template: src=docker-devops-pack.service.j2 dest=/usr/lib/systemd/system/docker-devops-pack.service
