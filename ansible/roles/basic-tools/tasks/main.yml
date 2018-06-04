@@ -1,4 +1,11 @@
 ---
+- name: install basic tools
+  yum: name={{ item }} state=latest
+  with_items:
+    - traceroute
+    - wget
+    - bind-utils
+
 - name: set wandisco-git.repo
   template:
     src: wandisco-git.repo.j2

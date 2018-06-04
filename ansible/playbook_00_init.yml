@@ -44,7 +44,7 @@
   vars_files:
     - env_vars.yml
   roles:
-    - git
+    - basic-tools
     - docker
     - docker-compose
     - docker-devops-pack
