@@ -17,9 +17,10 @@
     - "{{ openldap_data_path }}/data"
 
 - name: docker pull
-  docker_image:
-    name: "{{ item.name }}"
-    tag: "{{ item.tag }}"
+#  docker_image:
+#    name: "{{ item.name }}"
+#    tag: "{{ item.tag }}"
+  shell: docker pull {{ item.name }}:{{ item.tag }}
   with_items:
     - { name: "sameersbn/postgresql", tag: "{{ postgresql_for_gitlab_version }}" }
     - { name: "sameersbn/redis", tag: "{{ redis_for_gitlab_version }}" }
