@@ -35,12 +35,9 @@ services:
     image: sameersbn/gitlab:{{ gitlab_version }}
     container_name: gitlab
     depends_on:
-      gitlab-redis:
-        condition: service_started
-      gitlab-postgresql:
-        condition: service_healthy
-      openldap:
-        condition: service_started
+      - gitlab-redis
+      - gitlab-postgresql
+      - openldap
     ports:
     - "{{ gitlab_http_port }}:80"
     - "{{ gitlab_ssh_port }}:22"
@@ -119,8 +116,7 @@ services:
     image: osixia/phpldapadmin:{{ phpldapadmin_version }}
     container_name: phpldapadmin
     depends_on:
-      openldap:
-        condition: service_started
+      - openldap
     ports:
     - "{{ phpldapadmin_http_port }}:80"
     volumes:
