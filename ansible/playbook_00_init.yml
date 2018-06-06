@@ -6,6 +6,8 @@
     config_user: "vagrant"
     config_group: "vagrant"
     git_wandisco_repo_distribution: "centos"
+    gradle_version: "4.8"
+    gradle_path: "/opt/gradle"
     docker_compose_version: "1.21.2"
     devops_pack_path: "/var/lib/docker/data/devops-pack"
     postgresql_for_gitlab_version: "9.6-2"

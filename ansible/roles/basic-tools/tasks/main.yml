@@ -2,9 +2,11 @@
 - name: install basic tools
   yum: name={{ item }} state=latest
   with_items:
+    - unzip
     - traceroute
     - wget
     - bind-utils
+    - java-1.8.0-openjdk-devel
 
 - name: set wandisco-git.repo
   template:
@@ -18,3 +20,24 @@
 
 - name: install git
   yum: name=git state=latest enablerepo=wandisco-git
+
+- name: mkdir required dirs
+  file: path={{ item.name }} state=directory recurse=yes mode=0755 owner={{ item.owner }} group={{ item.group }}
+  with_items:
+    - { name: "{{ gradle_path }}", owner: "{{ config_user }}", group: "{{ config_group }}" }
+
+- name: get gradle zip
+  get_url:
+    url: "https://services.gradle.org/distributions/gradle-{{ gradle_version }}-bin.zip"
+    dest: "/tmp"
+
+- name: unzip gradle zip
+  unarchive:
+    src: "/tmp/gradle-{{ gradle_version }}-bin.zip"
+    dest: "{{ gradle_path }}/"
+
+- name: create link for gradle bin
+  file:
+    src: "{{ gradle_path }}/gradle-{{ gradle_version }}/bin/gradle"
+    dest: "/usr/local/bin/gradle"
+    state: link
