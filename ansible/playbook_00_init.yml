@@ -18,7 +18,7 @@
     postgresql_for_gitlab_port: 8003
     redis_for_gitlab_version: "latest"
     redis_for_gitlab_path: "/var/lib/docker/data/redis_for_gitlab"
-    gitlab_version: "10.8.1"
+    gitlab_version: "10.8.3-1"
     gitlab_hostname: "localhost"
     gitlab_path: "/var/lib/docker/data/gitlab"
     gitlab_http_port: 8001
@@ -29,6 +29,10 @@
     jenkins_data_path: "/var/lib/docker/data/jenkins"
     jenkins_http_port: 8004
     jenkins_jnlp_port: 8005
+    jenkins_slave_path: "/var/lib/docker/data/jenkins-slave"
+    jenkins_slave_openjdk_version: "8u171"
+    jenkins_slave_agent_name: ""
+    jenkins_slave_secret_token: ""
     openldap_version: "1.2.1"
     openldap_data_path: "/var/lib/docker/data/openldap"
     openldap_port: 8006

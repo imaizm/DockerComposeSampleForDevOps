@@ -13,6 +13,9 @@
     - "{{ gitlab_path }}/data"
     - "{{ gitlab_path }}/log"
     - "{{ jenkins_data_path }}"
+    - "{{ jenkins_slave_path }}/build/slave"
+    - "{{ jenkins_slave_path }}/build/jnlp-slave"
+    - "{{ jenkins_slave_path }}/data"
     - "{{ openldap_data_path }}/conf"
     - "{{ openldap_data_path }}/data"
 
@@ -29,6 +32,24 @@
     - { name: "osixia/openldap", tag: "{{ openldap_version }}" }
     - { name: "osixia/phpldapadmin", tag: "{{ phpldapadmin_version }}" }
     - { name: "sonatype/nexus3", tag: "{{ nexus_version }}" }
+    - { name: "openjdk", tag: "{{ jenkins_slave_openjdk_version }}-jdk" }
+
+- name: set Dockerfile etc for jenkins-slave-java
+  template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    owner: "{{ config_user }}"
+    group: "{{ config_group }}"
+  with_items:
+    - { src: "Dockerfile_for_JenkinsSlave-Java.j2", dest: "{{ jenkins_slave_path }}/build/slave/Dockerfile" }
+    - { src: "Dockerfile_for_JenkinsJnlpSlave-Java.j2", dest: "{{ jenkins_slave_path }}/build/jnlp-slave/Dockerfile" }
+    - { src: "jenkins-slave.j2", dest: "{{ jenkins_slave_path }}/build/jnlp-slave/jenkins-slave" }
+
+- name: docker build
+  shell: docker build -t {{ item.tag }} {{ item.dockerfile_path }}
+  with_items:
+    - { tag: "jenkins-slave-java:openjdk-{{ jenkins_slave_openjdk_version }}", dockerfile_path: "{{ jenkins_slave_path }}/build/slave/" }
+    - { tag: "jenkins-jnlp-slave-java:openjdk-{{ jenkins_slave_openjdk_version }}", dockerfile_path: "{{ jenkins_slave_path }}/build/jnlp-slave/" }
 
 - name: set docker-compose.yml
   template:

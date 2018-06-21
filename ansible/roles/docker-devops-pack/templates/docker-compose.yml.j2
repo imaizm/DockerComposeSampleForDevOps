@@ -97,6 +97,22 @@ services:
     volumes:
     - {{ jenkins_data_path }}:/var/jenkins_home:z
 
+{% if jenkins_slave_secret_token != "" %}
+  jenkins-jnlp-slave-java:
+    restart: always
+    image: jenkins-jnlp-slave-java:openjdk-{{ jenkins_slave_openjdk_version }}
+    container_name: jenkins-jnlp-slave-java
+    depends_on:
+      - jenkins
+    volumes:
+    - {{ jenkins_slave_path }}/data:/home/jenkins/agent
+    environment:
+    - JENKINS_URL=http://jenkins:8080
+    - JENKINS_SECRET={{ jenkins_slave_secret_token }}
+    - JENKINS_AGENT_NAME={{ jenkins_slave_agent_name }}
+    - JENKINS_AGENT_WORKDIR=/home/jenkins/agent
+{% endif %}
+
   openldap:
     restart: always
     image: osixia/openldap:{{ openldap_version }}
@@ -140,3 +156,4 @@ volumes:
   avoid-nameless-for-gitlab-postgresql-run:
   avoid-nameless-for-phpldapadmin:
   {{ nexus_volume_name }}:
+  jenkins-slave-java:

@@ -1,0 +1,12 @@
+# copy from
+# https://github.com/jenkinsci/docker-jnlp-slave
+# and modify "FROM" target
+FROM jenkins-slave-java:openjdk-{{ jenkins_slave_openjdk_version }}
+MAINTAINER Oleg Nenashev <o.v.nenashev@gmail.com>
+
+USER root
+
+COPY jenkins-slave /usr/local/bin/jenkins-slave
+RUN chmod 755 /usr/local/bin/jenkins-slave
+
+ENTRYPOINT ["/usr/local/bin/jenkins-slave"]
